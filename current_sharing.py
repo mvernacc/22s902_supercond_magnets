@@ -34,7 +34,7 @@ def solve_current_sharing(I_t, A_s, A_m):
                  + rho_m / A_m * (I_t - J_c * A_s * j_ratio))
         return error
     result = optimize.root_scalar(
-        voltage_balance, bracket=[0., 1.5], method='toms748')
+        voltage_balance, bracket=[0., 5.], method='toms748')
     j_ratio = result.root
     J_s = j_ratio * J_c
     E = E_c * (j_ratio)**n
@@ -51,7 +51,7 @@ def main():
     I_c = J_c * A_s
 
     # Ratios of I_t / I_c to examine
-    i_ratio = np.linspace(0.01, 1.5)
+    i_ratio = np.linspace(0.01, 4.)
     # Electric field [units: volt meter^-1]
     E = np.zeros(len(i_ratio))
     # Superconductor current density [units: amp meter^-2]
@@ -77,7 +77,7 @@ def main():
     ax_I.plot(i_ratio, I_s / I_c, label='Superconductor $I_s / I_c$')
     ax_I.plot(i_ratio, I_m / I_c, label='Matrix $I_m / I_c$', linestyle='--')
     ax_I.set_ylabel('currents / $I_c$ [-]')
-    ax_I.set_ylim([0, 1.5])
+    ax_I.set_ylim([0, 2.])
 
     ax_I.legend()
 
